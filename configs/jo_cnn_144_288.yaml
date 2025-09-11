@@ -1,0 +1,5 @@
+DATA:
+  IMG_SIZE: [144, 288]
+MODEL:
+  TYPE: deepcnn
+  NAME: cnn_1.25degree

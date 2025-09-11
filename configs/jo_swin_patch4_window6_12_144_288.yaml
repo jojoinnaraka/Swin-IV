@@ -1,0 +1,12 @@
+DATA:
+  IMG_SIZE: [144, 288]
+MODEL:
+  TYPE: swinv2
+  NAME: swinv2_base_patch4_window6_12_1.25degree
+  DROP_PATH_RATE: 0.5
+  SWINV2:
+    EMBED_DIM: [96, 192, 192, 96]
+    DEPTHS: [ 2, 6, 6, 2 ]
+    NUM_HEADS: [6, 12, 12, 6]
+    WINDOW_SIZE: [6, 12]
+    PATCH_SIZE: 4
