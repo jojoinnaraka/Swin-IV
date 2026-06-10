@@ -883,12 +883,12 @@ class SwinTransformerV2(nn.Module):
 
         self.patches_resolution = patches_resolution
 
-        self.skip_conv2d = nn.Conv2d(
-                in_channels=embed_dim[0] * 2,
-                out_channels=embed_dim[0],
-                kernel_size=3,
-                padding=1
-            )
+        # self.skip_conv2d = nn.Conv2d(
+        #         in_channels=embed_dim[0] * 2,
+        #         out_channels=embed_dim[0],
+        #         kernel_size=3,
+        #         padding=1
+        #     )
 
         # absolute position embedding
         # if self.ape:
@@ -949,33 +949,36 @@ class SwinTransformerV2(nn.Module):
         x = self.var_aggregate(x)
         x = self.pos_drop(x)
 
-        use_skip = False
-        if use_skip:
+        # use_skip = False
+        # if use_skip:
 
-            x_layer0, skip0 = self.layers[0](x)
-            x = x_layer0
+        #     x_layer0, skip0 = self.layers[0](x)
+        #     x = x_layer0
 
-            x_layer1, _ = self.layers[1](x)
-            x = x_layer1
+        #     x_layer1, _ = self.layers[1](x)
+        #     x = x_layer1
 
-            x_layer2, _ = self.layers[2](x)
-            x = x_layer2
+        #     x_layer2, _ = self.layers[2](x)
+        #     x = x_layer2
 
-            x_concat = torch.cat([x, skip0], dim=-1)
-            H, W = self.patches_resolution[0]
-            B, N, C_concat = x_concat.shape
-            x_spatial = x_concat.view(B, H, W, C_concat)
-            x_spatial_reshaped = x_spatial.permute(0, 3, 1, 2)
+        #     x_concat = torch.cat([x, skip0], dim=-1)
+        #     H, W = self.patches_resolution[0]
+        #     B, N, C_concat = x_concat.shape
+        #     x_spatial = x_concat.view(B, H, W, C_concat)
+        #     x_spatial_reshaped = x_spatial.permute(0, 3, 1, 2)
 
-            x_compressed = self.skip_conv2d(x_spatial_reshaped)  # 输出: (B, C, H, W)
-            x = x_compressed.permute(0, 2, 3, 1).view(B, H*W, -1)
+        #     x_compressed = self.skip_conv2d(x_spatial_reshaped)  # 输出: (B, C, H, W)
+        #     x = x_compressed.permute(0, 2, 3, 1).view(B, H*W, -1)
 
-            x_layer3, _ = self.layers[3](x)
-            x = x_layer3
+        #     x_layer3, _ = self.layers[3](x)
+        #     x = x_layer3
         
-        else:
-            for layer in self.layers:
-                x, _ = layer(x)
+        # else:
+        #     for layer in self.layers:
+        #         x, _ = layer(x)
+
+        for layer in self.layers:
+            x, _ = layer(x)
 
         x = self.var_predict(x)
         x = self.patch_recovery(x)
