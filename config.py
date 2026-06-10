@@ -254,6 +254,8 @@ def update_config(config, args):
         config.DATA.CACHE_MODE = args.cache_mode
     if _check_args('pretrained'):
         config.MODEL.PRETRAINED = args.pretrained
+    if _check_args('autoresume'):
+        config.TRAIN.AUTO_RESUME = args.autoresume
     if _check_args('resume'):
         config.MODEL.RESUME = args.resume
     if _check_args('accumulation_steps'):
